@@ -4,7 +4,7 @@ import { clerkClient } from "@clerk/express";
 import axios from "axios";
 import { v2 as cloudinary } from "cloudinary";
 import fs from "fs";
-import { default as pdf } from "pdf-parse";
+// import { default as pdf } from "pdf-parse";
 import FormData from "form-data";
 
 const AI = new OpenAI({
@@ -221,6 +221,9 @@ export const resumeReview = async (req, res) => {
         message: "Resume file size exceeds allowed size (5MB)",
       });
     }
+
+    const pdfModule = await import("pdf-parse");
+    const pdf = pdfModule.default;
 
     const dataBuffer = fs.readFileSync(resume.path);
     const pdfData = await pdf(dataBuffer);
